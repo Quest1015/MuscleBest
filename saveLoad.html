@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Muscle Best - 讀取進度</title>
+  <style>
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: "Microsoft JhengHei", Arial, sans-serif;
+      background: linear-gradient(to bottom, #ffc68d, #ff9f18);
+      color: #5c2d0f;
+    }
+    .panel {
+      width: min(92vw, 620px);
+      background: rgba(255, 255, 255, 0.75);
+      border-radius: 24px;
+      padding: 28px;
+      box-shadow: 0 12px 26px rgba(0, 0, 0, 0.16);
+      border: 2px solid rgba(151, 69, 17, 0.25);
+    }
+    h1 {
+      margin: 0 0 16px;
+      text-align: center;
+      font-size: 34px;
+      color: #974511;
+    }
+    .user-line, .save-line {
+      font-size: 20px;
+      margin: 10px 0;
+    }
+    .xp-wrap {
+      margin-top: 16px;
+      background: rgba(0, 0, 0, 0.12);
+      height: 16px;
+      border-radius: 999px;
+      overflow: hidden;
+    }
+    .xp-fill {
+      width: 0%;
+      height: 100%;
+      background: linear-gradient(90deg, #7cc6c2, #4c8d87);
+      transition: width 0.4s;
+    }
+    .btns {
+      display: flex;
+      gap: 12px;
+      margin-top: 26px;
+      flex-wrap: wrap;
+    }
+    button {
+      flex: 1;
+      min-width: 180px;
+      height: 54px;
+      border-radius: 10px;
+      border: none;
+      font-size: 19px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    #continueBtn {
+      color: #fff;
+      background: #974511;
+    }
+    #resetBtn {
+      color: #974511;
+      background: #fff7ef;
+      border: 2px solid #974511;
+    }
+  </style>
+</head>
+<body>
+  <div class="panel">
+    <h1>讀取訓練進度</h1>
+    <div class="user-line">目前使用者：<strong id="userText">-</strong></div>
+    <div class="save-line">等級：<strong id="levelText">LV.1</strong></div>
+    <div class="save-line" id="xpText">XP: 0 / 100（總經驗 0）</div>
+    <div class="xp-wrap"><div class="xp-fill" id="xpFill"></div></div>
+    <div class="btns">
+      <button id="continueBtn">繼續訓練（讀取存檔）</button>
+      <button id="resetBtn">開新檔（清空經驗）</button>
+    </div>
+  </div>
+
+  <script>
+    const STORAGE_PREFIX = "mbSave:";
+    const DEFAULT_USER = "guest";
+    const currentUser = localStorage.getItem("mbCurrentUser") || localStorage.getItem("qrLoginUser") || DEFAULT_USER;
+    const saveKey = STORAGE_PREFIX + currentUser;
+
+    function getSave() {
+      try {
+        const raw = localStorage.getItem(saveKey);
+        const parsed = raw ? JSON.parse(raw) : null;
+        const totalXp = Number(parsed && parsed.totalXp) || 0;
+        const bodyType = (parsed && typeof parsed.bodyType === "string") ? parsed.bodyType.toUpperCase() : "";
+        return { totalXp: Math.max(0, Math.floor(totalXp)), bodyType: bodyType };
+      } catch (e) {
+        return { totalXp: 0, bodyType: "" };
+      }
+    }
+
+    function setSave(data) {
+      localStorage.setItem(saveKey, JSON.stringify({
+        totalXp: Math.max(0, Math.floor(Number(data.totalXp) || 0)),
+        bodyType: (data.bodyType || "").toUpperCase()
+      }));
+    }
+
+    function render() {
+      const save = getSave();
+      const level = Math.floor(save.totalXp / 100) + 1;
+      const xpInLevel = save.totalXp % 100;
+      document.getElementById("userText").textContent = currentUser;
+      document.getElementById("levelText").textContent = "LV." + level;
+      document.getElementById("xpText").textContent = "XP: " + xpInLevel + " / 100（總經驗 " + save.totalXp + "）";
+      document.getElementById("xpFill").style.width = xpInLevel + "%";
+    }
+
+    function routeToGameStartByType(bodyType) {
+      const routeMap = {
+        C: "gameStartC.html",
+        D: "gameStartD.html",
+        I: "gameStartI.html"
+      };
+      return routeMap[bodyType] || "";
+    }
+
+    document.getElementById("continueBtn").addEventListener("click", () => {
+      localStorage.setItem("mbCurrentUser", currentUser);
+      const save = getSave();
+      const shouldSkipInBody = save.totalXp > 0;
+      const gameStartPage = routeToGameStartByType(save.bodyType);
+      if (shouldSkipInBody && gameStartPage) {
+        window.location.href = gameStartPage;
+        return;
+      }
+      window.location.href = "inBody.html";
+    });
+
+    document.getElementById("resetBtn").addEventListener("click", () => {
+      if (!window.confirm("確定要清空這個帳號的經驗值嗎？")) return;
+      setSave({ totalXp: 0, bodyType: "" });
+      render();
+    });
+
+    render();
+  </script>
+</body>
+</html>

@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Muscle Best</title>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Muscle Best Login</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="account.css">
+  <style id="sections-styles">
+/* CSS for section section:LoginScreen */
+#login-screen {
+    width: 100%;
+    min-height: 100vh;
+    background-image: linear-gradient(to bottom, #ffc68d, #FF9F18);
+    display: flex;
+    justify-content: center;
+    align-items: center; /* Center vertically on screen */
+    padding: 40px 20px;
+  }
+
+  .main-container {
+    width: 100%;
+    max-width: 1194px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  /* Logo Area */
+  .logo-header {
+    margin-bottom: 60px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+
+  .logo-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap; /* Allow wrapping on very small screens */
+  }
+
+  .logo-icon {
+    width: 203px;
+    height: auto;
+    object-fit: contain;
+    /* Overlap adjustment based on Figma positions */
+    position: relative;
+    z-index: 2;
+  }
+
+  .logo-text {
+    width: 500px;
+    height: auto;
+    object-fit: contain;
+    margin-left: -10px; /* Slight visual adjustment to keep them tight */
+    position: relative;
+    z-index: 1;
+  }
+
+  /* Form Area */
+  .login-form {
+    width: 100%;
+    max-width: 800px; /* Constrain form width */
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    align-items: center; 
+  }
+
+  .input-group {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    width: 100%;
+  }
+
+  .input-label {
+    font-size: 24px;
+    font-weight: 700;
+    color: #974511;
+    white-space: nowrap;
+    width: 60px; /* Fixed width for alignment */
+    text-align: right;
+  }
+
+  .styled-input {
+    flex: 1;
+    max-width: 600px;
+    height: 70px;
+    background-color: #ffffff;
+    border: 2px solid #974511;
+    border-radius: 30px;
+    padding: 0 20px;
+    font-size: 20px;
+    color: #333;
+    outline: none;
+    text-align: left; 
+  }
+
+  .styled-input:focus {
+    box-shadow: 0 0 0 3px rgba(151, 69, 17, 0.2);
+  }
+
+  /* Remember Me */
+  .options-row {
+    display: flex;
+    justify-content: flex-end; /* Align to right side relative to form */
+    width: 100%;
+    padding-right: 10%; /* Approximate alignment with input end */
+  }
+
+  .remember-me-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+  }
+
+  .check-icon {
+    width: 30px;
+    height: 30px;
+  }
+
+  .remember-text {
+    font-size: 20px;
+    font-weight: 700;
+    color: #974511;
+  }
+
+  /* Buttons */
+  .button-row {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 33px; /* Precise gap from Figma */
+    margin-top: 20px;
+    flex-wrap: wrap;
+  }
+
+  .btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 20px;
+    font-weight: 700;
+    border-radius: 10px;
+    box-shadow: 2px 2px 3px 0px rgba(0, 0, 0, 0.15);
+    transition: transform 0.1s ease;
+  }
+
+  .btn:active {
+    transform: translateY(2px);
+  }
+
+  /* 未輸入時按鈕不可點擊的樣式 */
+  .btn:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+    box-shadow: none;
+  }
+
+  .btn:disabled:active {
+    transform: none;
+  }
+
+  .btn-register {
+    width: 150px;
+    height: 60px;
+    background-color: #ffffff;
+    border: 4px solid #974511;
+    color: #974511;
+  }
+
+  .btn-login {
+    width: 300px;
+    height: 60px;
+    background-color: #974511;
+    border: 3px solid #ffcc84;
+    color: #ffffff;
+  }
+
+  /* Footer Links */
+  .footer-links {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 10px;
+  }
+
+  .link-text {
+    font-size: 16px;
+    font-weight: 700;
+    color: #974511;
+    text-decoration: none;
+  }
+
+  .link-text:hover {
+    text-decoration: underline;
+  }
+
+  /* Responsive Adjustments */
+  @media (max-width: 768px) {
+    .logo-wrapper {
+      flex-direction: column;
+    }
+    
+    .logo-text {
+      width: 80%;
+      margin-left: 0;
+      margin-top: -20px;
+    }
+
+    .input-group {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 10px;
+    }
+
+    .input-label {
+      width: 100%;
+      text-align: left;
+      padding-left: 10px;
+    }
+
+    .styled-input {
+      width: 100%;
+      max-width: 100%;
+    }
+
+    .options-row {
+      padding-right: 0;
+      justify-content: center;
+    }
+
+    .button-row {
+      flex-direction: column-reverse; /* Put Login on top or keep as is? Usually primary action first. */
+      gap: 20px;
+    }
+
+    .btn-register, .btn-login {
+      width: 100%;
+      max-width: 300px;
+    }
+  }
+  </style>
+  <script src="account.js" defer></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const accountInput = document.getElementById('account');
+      const passwordInput = document.getElementById('password');
+      const registerBtn = document.getElementById('register-btn');
+      const loginBtn = document.getElementById('login-btn');
+
+      function syncButtonsEnabled() {
+        const ok =
+          accountInput.value.trim() !== '' &&
+          passwordInput.value.trim() !== '';
+        registerBtn.disabled = !ok;
+        loginBtn.disabled = !ok;
+      }
+
+      [accountInput, passwordInput].forEach(function (el) {
+        el.addEventListener('input', syncButtonsEnabled);
+        el.addEventListener('change', syncButtonsEnabled);
+      });
+
+      loginBtn.addEventListener('click', function () {
+        if (loginBtn.disabled) return;
+        window.location.href = 'inBody.html';
+      });
+
+      syncButtonsEnabled();
+    });
+  </script>
+</head>
+<body>
+<section id="login-screen">
+  <div class="main-container">
+    
+    <div class="logo-header">
+      <div class="logo-wrapper">
+        <img src="image/Group 99.png" alt="Muscle Best Text" class="logo-text">
+      </div>
+    </div>
+
+    <!-- Login Form -->
+    <form class="login-form">
+      
+      <!-- Account Input -->
+      <div class="input-group">
+        <label for="account" class="input-label">帳號</label>
+        <input type="text" id="account" class="styled-input" name="account">
+      </div>
+
+      <!-- Password Input -->
+      <div class="input-group">
+        <label for="password" class="input-label">密碼</label>
+        <input type="password" id="password" class="styled-input" name="password">
+      </div>
+
+      <!-- Remember Me -->
+      <div class="options-row">
+        <label class="remember-me-container">
+          <input type="checkbox" id="remember-me" class="hidden-checkbox">
+          <span class="custom-checkmark"></span>
+          <span class="remember-text">記住我</span>
+        </label>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="button-row">
+        <button type="button" class="btn btn-register" id="register-btn" disabled>註冊</button>
+        <button type="button" class="btn btn-login" id="login-btn" disabled>登入</button>
+      </div>
+
+      
+    </form>
+  </div>
+</section>
+</body>
+</html>

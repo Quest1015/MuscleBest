@@ -1,0 +1,64 @@
+body {
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden; /* 保持固定不捲動 */
+  background-image: linear-gradient(to bottom, #ffc68d, #FF9F18);
+  
+  display: flex;
+  flex-direction: column; /* 讓內容由上往下排 */
+  align-items: center;    /* 水平置中 */
+}
+
+/* 確保 Header 區域有固定高度，不會被壓縮 */
+#section-header {
+  width: 100%;
+  height: 220px; /* 從 350px 縮小到 220px，騰出空間給按鈕 */
+  position: relative;
+  flex-shrink: 0; 
+  display: flex;
+  justify-content: center;
+}
+
+.header-container {
+  width: 100%;
+  max-width: 1194px;
+  position: relative;
+  /* 關鍵：縮小整組氣泡與雞的比例 */
+  transform: scale(0.8); /* 縮小到 80%，你可以根據需要調整成 0.7 或 0.75 */
+  transform-origin: top center; /* 從上方中心點縮放 */
+}
+
+/* 縮小氣泡 */
+.bubble-group {
+  position: absolute;
+  left: 165px;
+  top: 20px;       /* 向上移一點，省空間 */
+  width: 550px;    /* 原本 744px，縮小約 25% */
+  height: auto;    /* 讓高度自動 */
+  z-index: 2;
+}
+
+.bubble-text {
+  position: absolute;
+  top: 40px;       /* 縮小後文字位置也要微調 */
+  left: 80px;
+  width: 380px;    /* 配合氣泡寬度 */
+  font-size: 24px; /* 字體稍微縮小，避免擠出氣泡 */
+  color: #974511;
+  font-weight: 700;
+  text-align: center;
+  line-height: 1.4;
+  z-index: 3;
+}
+
+/* 縮小雞的圖片 */
+.chicken-logo {
+  position: absolute;
+  left: 620px;     /* 配合縮小後的氣泡位置往左移 */
+  top: 30px;
+  width: 160px;    /* 原本 226px，縮小一點 */
+  height: auto;
+  z-index: 10;
+}

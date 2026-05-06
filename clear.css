@@ -1,0 +1,88 @@
+#section-game-result {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.result-container {
+  position: relative;
+  width: 100%;
+  max-width: 1194px;
+  /* Aspect ratio based on 1194x834 */
+  aspect-ratio: 1194 / 834;
+  background-color: #fff; 
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+
+/* Background Image */
+.bg-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 1;
+}
+
+/* Buttons Container */
+.action-buttons {
+  position: absolute;
+  bottom: 10.5%;
+  left: 0;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  gap: 32px;
+  z-index: 2;
+  padding: 0 20px;
+  box-sizing: border-box;
+}
+
+/* Common Button Styles */
+.btn {
+  width: 300px;
+  height: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px;
+  font-weight: 700;
+  font-size: 20px; /* Estimated font size */
+  transition: transform 0.1s ease, box-shadow 0.1s ease;
+  text-decoration: none; /* 移除 a 標籤預設底線 */
+}
+
+.btn:active {
+  transform: translateY(2px);
+  box-shadow: none !important;
+}
+
+/* Home Button - Style 3 */
+.btn-home {
+  background-color: #974511;
+  border: 3px solid #ffcc84;
+  box-shadow: 2px 3px 3px 0px rgba(0, 0, 0, 0.15);
+  color: #ffffff; /* Style 4 */
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .action-buttons {
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    bottom: 5%;
+  }
+
+  .btn {
+    width: 80%;
+    max-width: 300px;
+    height: 50px;
+    font-size: 18px;
+  }
+}

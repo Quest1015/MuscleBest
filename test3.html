@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Muscle Best - 智能登入系統</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="account.css">
+
+  <style>
+    /* 基礎樣式保持不變 */
+    #login-screen {
+      width: 100%;
+      min-height: 100vh;
+      background-image: linear-gradient(to bottom, #ffc68d, #FF9F18);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 40px 20px;
+    }
+    .main-container {
+      width: 100%;
+      max-width: 1194px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .logo-text { width: 500px; height: auto; object-fit: contain; }
+    .login-form {
+      width: 100%;
+      max-width: 800px;
+      display: flex;
+      flex-direction: column;
+      gap: 30px;
+      align-items: center; 
+    }
+    /* 掃描容器樣式 */
+    .face-login-container {
+      display: none; 
+      flex-direction: column;
+      align-items: center;
+      gap: 15px;
+      background: rgba(255, 255, 255, 0.5);
+      padding: 30px;
+      border-radius: 30px;
+      border: 3px dashed #974511;
+      width: 100%;
+    }
+    .qr-viewer {
+      position: relative;
+      width: min(82vw, 360px);
+      height: min(82vw, 360px);
+      border-radius: 20px;
+      overflow: hidden;
+      background: #000;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+    }
+    #face-video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover; /* 保持比例，避免手機畫面變形 */
+      object-position: center;
+    }
+    #qr-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+    }
+    .face-status {
+      font-size: 22px;
+      font-weight: 700;
+      color: #974511;
+      text-align: center;
+      min-height: 33px;
+    }
+    #face-debug {
+      font-size: 14px;
+      color: #6b3b16;
+      background: rgba(255, 255, 255, 0.7);
+      border-radius: 10px;
+      padding: 10px 12px;
+      width: 100%;
+      max-width: 500px;
+      line-height: 1.5;
+      white-space: pre-line;
+      margin-top: 8px;
+    }
+    .switch-mode-link {
+      margin-top: 20px;
+      color: #974511;
+      cursor: pointer;
+      text-decoration: underline;
+      font-weight: 700;
+      font-size: 18px;
+    }
+    .camera-switch-btn {
+      width: 220px;
+      height: 48px;
+      border: 2px solid #974511;
+      background: #fff7ee;
+      color: #974511;
+      font-size: 16px;
+      font-weight: 700;
+      border-radius: 12px;
+      cursor: pointer;
+    }
+    .btn { cursor: pointer; display: flex; justify-content: center; align-items: center; font-size: 20px; font-weight: 700; border-radius: 10px; }
+    .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+    .btn-login { width: 300px; height: 60px; background-color: #974511; color: #fff; border: none; }
+    .btn-register { width: 150px; height: 60px; background-color: #fff; border: 4px solid #974511; color: #974511; }
+  </style>
+</head>
+<body>
+
+<section id="login-screen">
+  <div class="main-container">
+    <div class="logo-header">
+      <img src="image/Group 99.png" alt="Muscle Best" class="logo-text">
+    </div>
+
+    <form class="login-form">
+      <!-- 傳統登入區 -->
+      <div id="standard-fields" style="width: 100%; display: flex; flex-direction: column; gap: 30px;">
+        <div class="input-group" style="display:flex; align-items:center; gap:20px;">
+          <label class="input-label" style="font-size:24px; font-weight:700; color:#974511;">帳號</label>
+          <input type="text" id="account" class="styled-input" style="flex:1; height:60px; border-radius:30px; border:2px solid #974511; padding:0 20px;">
+        </div>
+        <div class="input-group" style="display:flex; align-items:center; gap:20px;">
+          <label class="input-label" style="font-size:24px; font-weight:700; color:#974511;">密碼</label>
+          <input type="password" id="password" class="styled-input" style="flex:1; height:60px; border-radius:30px; border:2px solid #974511; padding:0 20px;">
+        </div>
+      </div>
+
+      <!-- QR Code 掃描區 -->
+      <div id="face-auth-area" class="face-login-container">
+        <div class="qr-viewer">
+          <video id="face-video" autoplay muted playsinline></video>
+          <canvas id="qr-overlay"></canvas>
+        </div>
+        <div id="face-status" class="face-status">準備掃描 QR code...</div>
+        <div id="face-debug">等待啟動...</div>
+        <button type="button" id="switch-camera-btn" class="camera-switch-btn">切換鏡頭（目前：後鏡頭）</button>
+      </div>
+
+      <div class="button-row" style="display:flex; gap:20px;">
+        <button type="button" class="btn btn-register" id="register-btn" disabled>註冊</button>
+        <button type="button" class="btn btn-login" id="login-btn" disabled>登入</button>
+      </div>
+
+      <div class="switch-mode-link" id="toggleFaceMode">使用 QR code 快速登入</div>
+    </form>
+  </div>
+</section>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    // --- 介面元素 ---
+    const accountInput = document.getElementById('account');
+    const passwordInput = document.getElementById('password');
+    const loginBtn = document.getElementById('login-btn');
+    const registerBtn = document.getElementById('register-btn');
+    const toggleLink = document.getElementById('toggleFaceMode');
+    const faceArea = document.getElementById('face-auth-area');
+    const standardFields = document.getElementById('standard-fields');
+    const faceStatus = document.getElementById('face-status');
+    const faceDebug = document.getElementById('face-debug');
+    const video = document.getElementById('face-video');
+    const qrOverlay = document.getElementById('qr-overlay');
+    const qrCtx = qrOverlay.getContext('2d');
+    const switchCameraBtn = document.getElementById('switch-camera-btn');
+
+    // --- 設定與狀態 ---
+    const SECRET_KEY = ["MuscleBest_User_CWX", "MuscleBest_User_MHW", "MuscleBest_User_TPZ"]; // 只有內容是這個字串的 QR Code 才能登入
+    let isQRMode = false;
+    let activeStream = null;
+    let qrTimer = null;
+    let qrRunning = false;
+    let qrDecoder = null; 
+    let scanInProgress = false;
+    let cameraFacing = "environment";
+    let preferredFacing = "environment";
+
+    // 用於 jsQR 的快取 Canvas
+    const jsqrCanvas = document.createElement('canvas');
+    const jsqrCtx = jsqrCanvas.getContext('2d', { willReadFrequently: true });
+
+    // --- 輔助工具 ---
+    function setDebug(msg) { faceDebug.textContent = msg; }
+    function appendDebug(msg) { faceDebug.textContent += `\n${msg}`; }
+    function clearOverlay() { qrCtx.clearRect(0, 0, qrOverlay.width, qrOverlay.height); }
+
+    function drawGuideFrame() {
+      clearOverlay();
+      const w = qrOverlay.width;
+      const h = qrOverlay.height;
+      if (!w || !h) return;
+
+      const size = Math.floor(Math.min(w, h) * 0.62);
+      const x = Math.floor((w - size) / 2);
+      const y = Math.floor((h - size) / 2);
+
+      qrCtx.strokeStyle = "rgba(0, 229, 255, 0.85)";
+      qrCtx.lineWidth = 3;
+      qrCtx.setLineDash([12, 8]);
+      qrCtx.strokeRect(x, y, size, size);
+      qrCtx.setLineDash([]);
+    }
+
+    function resizeQrOverlay() {
+      const rect = qrOverlay.getBoundingClientRect();
+      if (rect.width > 0 && rect.height > 0) {
+        qrOverlay.width = Math.floor(rect.width);
+        qrOverlay.height = Math.floor(rect.height);
+      }
+    }
+
+    // 動態載入 jsQR 插件
+    function loadScript(src) {
+      return new Promise((resolve, reject) => {
+        const s = document.createElement('script');
+        s.src = src; s.onload = resolve; s.onerror = reject;
+        document.head.appendChild(s);
+      });
+    }
+
+    // 初始化解碼器
+    async function ensureQrDecoder() {
+      if (qrDecoder) return qrDecoder;
+      if (window.BarcodeDetector) {
+        try {
+          qrDecoder = { type: 'barcode', detector: new BarcodeDetector({ formats: ['qr_code'] }) };
+          setDebug("系統狀態：硬體解碼已就緒");
+        } catch (e) {
+          // 某些瀏覽器雖有 BarcodeDetector，但不支援 qr_code 格式
+          await loadScript('https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.js');
+          qrDecoder = { type: 'jsqr' };
+          setDebug("系統狀態：硬體解碼不支援 QR，已切換軟體解碼");
+        }
+      } else {
+        await loadScript('https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.js');
+        qrDecoder = { type: 'jsqr' };
+        setDebug("系統狀態：軟體解碼已就緒");
+      }
+      return qrDecoder;
+    }
+
+    // 畫出掃描框
+    function mapVideoPointToOverlay(p) {
+      const vw = video.videoWidth || 1;
+      const vh = video.videoHeight || 1;
+      const ow = qrOverlay.width || 1;
+      const oh = qrOverlay.height || 1;
+
+      // 與 object-fit: cover 一致的縮放與裁切
+      const scale = Math.max(ow / vw, oh / vh);
+      const renderedW = vw * scale;
+      const renderedH = vh * scale;
+      const offsetX = (renderedW - ow) / 2;
+      const offsetY = (renderedH - oh) / 2;
+
+      return {
+        x: p.x * scale - offsetX,
+        y: p.y * scale - offsetY
+      };
+    }
+
+    function drawBox(points) {
+      drawGuideFrame();
+      const mapped = points.map(mapVideoPointToOverlay);
+      qrCtx.strokeStyle = "#00e5ff";
+      qrCtx.lineWidth = 4;
+      qrCtx.beginPath();
+      qrCtx.moveTo(mapped[0].x, mapped[0].y);
+      mapped.forEach(p => qrCtx.lineTo(p.x, p.y));
+      qrCtx.closePath();
+      qrCtx.stroke();
+    }
+
+    // --- 核心功能：掃描與驗證 ---
+    async function scanQRCodeOnce() {
+      if (!qrRunning || scanInProgress || !video.videoWidth) return;
+      scanInProgress = true;
+
+      try {
+        let text = "";
+        let found = false;
+
+        if (qrDecoder.type === 'barcode') {
+          const results = await qrDecoder.detector.detect(video);
+          if (results.length > 0) {
+            text = results[0].rawValue;
+            // 轉換 boundingBox 格式供繪圖
+            const b = results[0].boundingBox;
+            drawBox([{x:b.x,y:b.y},{x:b.x+b.width,y:b.y},{x:b.x+b.width,y:b.y+b.height},{x:b.x,y:b.y+b.height}]);
+            found = true;
+          }
+        } else {
+          jsqrCanvas.width = video.videoWidth;
+          jsqrCanvas.height = video.videoHeight;
+          jsqrCtx.drawImage(video, 0, 0);
+          const imgData = jsqrCtx.getImageData(0, 0, jsqrCanvas.width, jsqrCanvas.height);
+          const code = jsQR(imgData.data, imgData.width, imgData.height);
+          if (code) {
+            text = code.data;
+            drawBox([code.topLeftCorner, code.topRightCorner, code.bottomRightCorner, code.bottomLeftCorner]);
+            found = true;
+          }
+        }
+
+        if (!found) {
+          drawGuideFrame();
+        }
+
+        if (found) {
+          const normalized = (text || "").trim();
+          const expectedKeys = Array.isArray(SECRET_KEY) ? SECRET_KEY.map(k => (k || "").trim()) : [(SECRET_KEY || "").trim()];
+          if (expectedKeys.includes(normalized)) {
+            // 驗證成功
+            faceStatus.textContent = "驗證成功！正在登入...";
+            faceStatus.style.color = "#28a745";
+            
+            // 自動填入並儲存
+            accountInput.value = normalized;
+            passwordInput.value = "qr_login_secure";
+            localStorage.setItem("qrLoginUser", normalized);
+            localStorage.setItem("mbCurrentUser", normalized);
+            syncButtonsEnabled();
+
+            stopAll();
+            setTimeout(() => window.location.href = 'saveLoad.html', 1000);
+          } else {
+            // 驗證失敗
+            faceStatus.textContent = "無效的 QR Code，請使用專屬識別證";
+            faceStatus.style.color = "#d9534f";
+            setDebug(`掃到內容：${normalized || "(空字串)"}\n預期內容：${expectedKeys.join(" / ")}`);
+            setTimeout(() => { 
+              faceStatus.style.color = "#974511";
+              faceStatus.textContent = "請將 QR code 放入畫面中央";
+            }, 2000);
+          }
+        }
+      } catch (err) {
+        console.error(err);
+      } finally {
+        scanInProgress = false;
+      }
+    }
+
+    async function startCameraAndScan() {
+      try {
+        await ensureQrDecoder();
+        // 依使用者目前偏好選擇優先鏡頭，失敗才 fallback
+        let stream = null;
+        try {
+          cameraFacing = preferredFacing;
+          stream = await navigator.mediaDevices.getUserMedia({
+            video: {
+              facingMode: preferredFacing === "environment" ? { ideal: "environment" } : "user",
+              width: { ideal: 1280 },
+              height: { ideal: 720 }
+            }
+          });
+        } catch (e) {
+          cameraFacing = preferredFacing === "environment" ? "user" : "environment";
+          stream = await navigator.mediaDevices.getUserMedia({
+            video: {
+              facingMode: cameraFacing === "environment" ? { ideal: "environment" } : "user",
+              width: { ideal: 1280 },
+              height: { ideal: 720 }
+            }
+          });
+        }
+
+        activeStream = stream;
+        video.srcObject = stream;
+        video.onloadedmetadata = async () => {
+          resizeQrOverlay();
+          await video.play();
+          qrRunning = true;
+          drawGuideFrame();
+          qrTimer = setInterval(scanQRCodeOnce, 300);
+          faceStatus.textContent = "請將 QR code 放入畫面中央";
+          setDebug(`鏡頭啟動成功（${cameraFacing === "environment" ? "後鏡頭優先" : "前鏡頭備援"}）`);
+          switchCameraBtn.textContent = `切換鏡頭（目前：${cameraFacing === "environment" ? "後鏡頭" : "前鏡頭"}）`;
+        };
+      } catch (err) {
+        faceStatus.textContent = "無法啟動鏡頭，請確認權限";
+        setDebug("錯誤：" + err.message);
+      }
+    }
+
+    function stopAll() {
+      qrRunning = false;
+      clearInterval(qrTimer);
+      if (activeStream) activeStream.getTracks().forEach(t => t.stop());
+      video.srcObject = null;
+      clearOverlay();
+    }
+
+    // --- 事件監聽 ---
+    toggleLink.addEventListener('click', () => {
+      isQRMode = !isQRMode;
+      if (isQRMode) {
+        standardFields.style.display = 'none';
+        faceArea.style.display = 'flex';
+        toggleLink.innerText = "切換回帳號密碼登入";
+        startCameraAndScan();
+      } else {
+        standardFields.style.display = 'flex';
+        faceArea.style.display = 'none';
+        toggleLink.innerText = "使用 QR code 快速登入";
+        stopAll();
+      }
+    });
+
+    function syncButtonsEnabled() {
+      const ok = accountInput.value.trim() !== '' && passwordInput.value.trim() !== '';
+      registerBtn.disabled = loginBtn.disabled = !ok;
+    }
+
+    accountInput.addEventListener('input', syncButtonsEnabled);
+    passwordInput.addEventListener('input', syncButtonsEnabled);
+    loginBtn.addEventListener('click', () => {
+      const account = accountInput.value.trim();
+      if (account) {
+        localStorage.setItem("mbCurrentUser", account);
+      }
+      window.location.href = 'saveLoad.html';
+    });
+
+    switchCameraBtn.addEventListener('click', async () => {
+      if (!isQRMode) return;
+      preferredFacing = cameraFacing === "environment" ? "user" : "environment";
+      faceStatus.textContent = "切換鏡頭中...";
+      setDebug(`正在切換到${preferredFacing === "environment" ? "後鏡頭" : "前鏡頭"}...`);
+      stopAll();
+      await startCameraAndScan();
+    });
+  });
+</script>
+
+</body>
+</html>

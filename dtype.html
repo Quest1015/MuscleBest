@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Muscle Best</title>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="dtype.css">
+  <style id="sections-styles">
+/* CSS for section section:AnalysisHeader */
+.header-section {
+  position: relative;
+  width: 100%;
+  /* Gradient from style_1 and root frame fills */
+  background: linear-gradient(180deg, #ffb162 0%, #ff9f18 100%);
+  padding-top: 40px;
+  padding-bottom: 60px;
+  display: flex;
+  justify-content: center;
+}
+
+.header-container {
+  width: 100%;
+  max-width: 1194px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 20px;
+}
+
+.back-link {
+  position: absolute;
+  left: 40px;
+  top: 20px;
+  text-decoration: none;
+  transition: transform 0.2s ease;
+}
+
+.back-link:hover {
+  transform: scale(1.05);
+}
+
+
+
+.header-content {
+  margin-top: 60px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.subtitle {
+  /* style_6 */
+  color: #974511;
+  font-size: 32px;
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+.main-title {
+  /* style_5 */
+  color: #974511;
+  font-size: 140px; /* Estimated from 176px height */
+  font-weight: 900;
+  line-height: 1;
+  text-shadow: 3px 4px 2px #55280b;
+  margin: 10px 0;
+}
+
+.category {
+  /* style_6 */
+  color: #974511;
+  font-size: 32px;
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .header-section {
+    padding-top: 20px;
+    padding-bottom: 40px;
+  }
+
+  .back-link {
+    left: 20px;
+    top: 20px;
+  }
+  
+  
+  .header-content {
+    margin-top: 60px;
+  }
+
+  .subtitle, .category {
+    font-size: 20px;
+  }
+
+  .main-title {
+    font-size: 80px;
+  }
+}
+
+/* CSS for section section:AnalysisBody */
+.body-section {
+  width: 100%;
+  /* style_2 */
+  background-color: #f6dfbf;
+  display: flex;
+  justify-content: center;
+  padding: 60px 20px 80px;
+  min-height: 400px;
+}
+
+.body-container {
+  width: 100%;
+  max-width: 1194px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 60px;
+}
+
+.text-content {
+  max-width: 800px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.description, .advice {
+  /* style_6 */
+  color: #974511;
+  font-size: 22px;
+  line-height: 1.6;
+  font-weight: 700;
+}
+
+.cta-button {
+  /* style_3 */
+  background-color: #974511;
+  border: 3px solid #ffcc84;
+  border-radius: 10px;
+  padding: 18px 85px;
+  height: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 2px 2px 3px 0px rgba(0, 0, 0, 0.15);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.cta-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 2px 4px 5px 0px rgba(0, 0, 0, 0.2);
+}
+
+.cta-button:active {
+  transform: translateY(0);
+}
+
+.btn-text {
+  /* style_4 */
+  color: #ffffff;
+  font-size: 20px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .body-section {
+    padding: 40px 20px;
+  }
+
+  .description, .advice {
+    font-size: 16px;
+    text-align: left;
+  }
+  
+  .cta-button {
+    width: 100%;
+    max-width: 300px;
+    padding: 15px 0;
+  }
+}
+  </style>
+  <script src="dtype.js" defer></script>
+</head>
+<body>
+<section id="analysis-header" class="header-section">
+  <div class="header-container">
+    <a href="inBody.html" class="back-link">
+      <img src="image/Frame 9.png" alt="Back" class="back-icon">
+    </a>
+    
+    <div class="header-content">
+      <p class="subtitle">你的身體數據為</p>
+      <h1 class="main-title">D型</h1>
+      <h2 class="category">蛋白質增肌人</h2>
+    </div>
+  </div>
+</section>
+<section id="analysis-body" class="body-section">
+  <div class="body-container">
+    <div class="text-content">
+      <p class="description">
+        你的肌肉量明顯高於均值，但體脂率相對偏低。<br><br>
+        你有足夠的耐心和意志力，並堅持規律的重量訓練和嚴格的飲食控制，以及維持早睡不熬夜的作息，值得鼓勵。
+      </p>
+      <p class="advice">
+        如果想要更健康的身體和更緊實的體態，建議保持現在所做的運動。
+      </p>
+    </div>
+    
+    <button class="cta-button" onclick="window.location.href='gameStartD.html'">
+      <span class="btn-text">開始運動</span>
+    </button>
+  </div>
+</section>
+</body>
+</html>

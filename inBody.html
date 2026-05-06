@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Muscle Best</title>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="inBody.css">
+  <style id="sections-styles">
+/* CSS for section section:Header */
+#section-header {
+    padding-top: 50px;
+    padding-bottom: 20px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .header-container {
+    height: 300px; /* Fixed height to maintain layout fidelity */
+  }
+
+  /* Bubble Group Positioning */
+  .bubble-group {
+    position: absolute;
+    left: 165px;
+    top: 27px; /* Adjusted relative to section padding */
+    width: 744px;
+    height: 242px;
+    z-index: 2;
+  }
+
+  .bubble-shapes {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  .bubble-ellipse {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 744px;
+    height: 172px;
+  }
+
+  .bubble-tail {
+    position: absolute;
+    top: 65px;
+    left: 50%;
+    transform: translateX(-50%); /* 水平置中 */
+    width: auto;
+    height: auto;
+    z-index: -1;
+  }
+
+  .bubble-text {
+    position: absolute;
+    top: 95px;
+    left: 115px;
+    width: 513px;
+    color: #974511;
+    font-size: 32px;
+    font-weight: 700;
+    text-align: left;
+    line-height: 1.4;
+    z-index: 3;
+  }
+
+  /* Chicken Logo Positioning */
+  .chicken-logo {
+    position: absolute;
+    left: 796px;
+    top: 46px; /* Adjusted relative to section padding */
+    width: 226px;
+    height: 223px;
+    z-index: 10;
+    filter: drop-shadow(4px 4px 4px rgba(0, 0, 0, 0.25));
+  }
+
+  /* Responsive Adjustments */
+  @media (max-width: 1024px) {
+    .header-container {
+      height: auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding-bottom: 40px;
+    }
+
+    .bubble-group {
+      position: relative;
+      left: auto;
+      top: auto;
+      width: 90%;
+      height: auto;
+      margin-bottom: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .bubble-shapes {
+      position: relative;
+      width: 100%;
+      height: auto;
+    }
+    
+    .bubble-ellipse, .bubble-tail {
+      position: relative;
+      width: 100%;
+      height: auto;
+      top: auto;
+      left: auto;
+    }
+    
+    .bubble-tail {
+      display: none; /* Hide complex tail on mobile resize for simplicity or adjust */
+    }
+
+    .bubble-text {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 80%;
+      font-size: 20px;
+      left: auto;
+    }
+
+    .chicken-logo {
+      position: relative;
+      left: auto;
+      top: auto;
+      width: 150px;
+      height: auto;
+    }
+  }
+
+/* CSS for section section:Form */
+#section-form {
+    padding-bottom: 50px;
+  }
+
+  .form-container {
+    display: flex;
+    justify-content: center;
+  }
+
+  .inbody-form {
+    width: 500px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .input-group label {
+    color: #974511;
+    font-size: 16px;
+    font-weight: 700;
+    margin-left: 4px;
+  }
+
+  .styled-input {
+    width: 100%;
+    height: 50px;
+    background-color: #ffffff;
+    border: 2px solid #974511;
+    border-radius: 30px;
+    padding: 0 20px;
+    font-size: 16px;
+    color: #333;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+
+  .styled-input:focus {
+    border-color: #7a360d;
+  }
+
+  .submit-btn {
+    margin-top: 25px;
+    width: 300px;
+    height: 60px;
+    background-color: #974511;
+    border: 3px solid #ffcc84;
+    border-radius: 10px;
+    color: #ffffff;
+    font-size: 20px;
+    font-weight: 700;
+    cursor: pointer;
+    align-self: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 2px 2px 3px 0px rgba(0, 0, 0, 0.15);
+    transition: transform 0.1s, box-shadow 0.1s;
+  }
+
+  .submit-btn:active {
+    transform: translateY(2px);
+    box-shadow: 1px 1px 2px 0px rgba(0, 0, 0, 0.15);
+  }
+
+  /* 未輸入數值時按鈕不可點擊的樣式 */
+  .submit-btn:disabled {
+    background-color: #c4a078;
+    border-color: #e0c9a8;
+    color: rgba(255, 255, 255, 0.7);
+    cursor: not-allowed;
+    box-shadow: none;
+  }
+
+  .submit-btn:disabled:active {
+    transform: none;
+  }
+
+  /* Responsive Adjustments */
+  @media (max-width: 600px) {
+    .inbody-form {
+      width: 90%;
+    }
+    
+    .submit-btn {
+      width: 100%;
+    }
+  }
+  </style>
+  <script src="inBody.js" defer></script>
+</head>
+<body>
+<section id="section-header">
+  <div class="container header-container">
+    <!-- Speech Bubble Group -->
+    <div class="bubble-group">
+      <div class="bubble-shapes">
+        <!--merged image-->
+        <img src="image/Component 1.png" alt="Bubble Tail" class="bubble-tail">
+      </div>
+      <div class="bubble-text">
+        請輸入你的InBody身體數據後<br>開始訓練...
+      </div>
+    </div>
+
+    <!-- Chicken Logo -->
+
+</section>
+<section id="section-form">
+  <div class="container form-container">
+    <form class="inbody-form">
+      
+      <!-- Input 1: Height -->
+      <div class="input-group">
+        <label for="height">身高(CM)</label>
+        <input type="text" id="height" name="height" class="styled-input">
+      </div>
+
+      <!-- Input 2: Weight -->
+      <div class="input-group">
+        <label for="weight">體重(KG)</label>
+        <input type="text" id="weight" name="weight" class="styled-input">
+      </div>
+
+      <!-- Input 3: Muscle Mass -->
+      <div class="input-group">
+        <label for="muscle">骨骼肌重量(KG)</label>
+        <input type="text" id="muscle" name="muscle" class="styled-input">
+      </div>
+
+      <!-- Input 4: Body Fat -->
+      <div class="input-group">
+        <label for="fat">體脂肪重量(KG)</label>
+        <input type="text" id="fat" name="fat" class="styled-input">
+      </div>
+
+      <!-- Submit Button（未輸入數值時不可點擊） -->
+      <button type="submit" class="submit-btn" id="submit-btn" disabled>
+        開始CID體型分析
+      </button>
+
+    </form>
+  </div>
+</section>
+</body>
+</html>

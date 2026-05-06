@@ -1,0 +1,137 @@
+body {
+  font-family: 'Noto Sans TC', sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f0f0f0;
+  display: flex;
+  justify-content: center;
+  align-items: center;    /* 讓內容水平垂直居中 */
+  height: 100vh;          /* 強制高度等於視窗高度 */
+  width: 100vw;           /* 強制寬度等於視窗寬度 */
+  overflow: hidden;       /* 關鍵：隱藏所有溢出的捲軸 */
+}
+
+/* 確保內部容器也不會撐開頁面 */
+.app, .container {
+  max-height: 100%;
+  max-width: 100%;
+  overflow: hidden;       /* 如果內部有東西太長，也不要出現捲軸 */
+}
+
+/* 隱藏原始 Checkbox */
+.hidden-checkbox {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+/* 自定義圓形框框 */
+.custom-checkmark {
+  width: 30px;
+  height: 30px;
+  background-color: #eee;
+  border: 2px solid #974511;
+  border-radius: 50%; /* 變成圓形 */
+  display: inline-block;
+  position: relative;
+  transition: all 0.2s ease;
+}
+
+/* 當滑鼠移上去時 */
+.remember-me-container:hover .custom-checkmark {
+  background-color: #f7e8d0;
+}
+
+/* 當被勾選時的背景色 */
+.hidden-checkbox:checked + .custom-checkmark {
+  background-color: #974511;
+}
+
+/* 繪製勾勾 (使用偽元素) */
+.custom-checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+  left: 9px;
+  top: 5px;
+  width: 7px;
+  height: 12px;
+  border: solid white;
+  border-width: 0 3px 3px 0;
+  transform: rotate(45deg);
+}
+
+/* 當被勾選時顯示勾勾 */
+.hidden-checkbox:checked + .custom-checkmark:after {
+  display: block;
+}
+
+/* 調整 Container 讓對齊更準 */
+.remember-me-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  user-select: none;
+}
+
+/* 隱藏原始 Checkbox */
+.hidden-checkbox {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+/* 自定義圓形框框 */
+.custom-checkmark {
+  width: 30px;
+  height: 30px;
+  background-color: #eee;
+  border: 2px solid #974511;
+  border-radius: 50%; /* 變成圓形 */
+  display: inline-block;
+  position: relative;
+  transition: all 0.2s ease;
+}
+
+/* 當滑鼠移上去時 */
+.remember-me-container:hover .custom-checkmark {
+  background-color: #f7e8d0;
+}
+
+/* 當被勾選時的背景色 */
+.hidden-checkbox:checked + .custom-checkmark {
+  background-color: #974511;
+}
+
+/* 繪製勾勾 (使用偽元素) */
+.custom-checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+  left: 9px;
+  top: 5px;
+  width: 7px;
+  height: 12px;
+  border: solid white;
+  border-width: 0 3px 3px 0;
+  transform: rotate(45deg);
+}
+
+/* 當被勾選時顯示勾勾 */
+.hidden-checkbox:checked + .custom-checkmark:after {
+  display: block;
+}
+
+/* 調整 Container 讓對齊更準 */
+.remember-me-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  user-select: none;
+}

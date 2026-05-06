@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Muscle Best</title>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="gameStartD.css">
+  <style id="sections-styles">
+/* CSS for section section:GameUI */
+#game-ui-section {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  padding: 20px;
+  background: linear-gradient(180deg, rgba(255, 177, 98, 1) 0%, rgba(255, 159, 24, 1) 100%);
+}
+
+.game-container {
+  width: 100%;
+  max-width: 1194px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Back Button */
+.back-button {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  width: 55px;
+  height: 55px;
+  padding: 0;
+  border-radius: 10px;
+  transition: transform 0.2s;
+}
+
+.back-button img {
+  width: 100%;
+  height: 100%;
+}
+
+.back-button:hover {
+  transform: scale(1.05);
+}
+
+/* Content Layout */
+.content-wrapper {
+  width: 100%;
+  max-width: 1093px;
+  margin-top: 60px; /* Space for back button area */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Title Badge */
+.title-badge {
+  background-color: #974511;
+  width: 460px;
+  height: 104px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 20px 20px 0 0; /* Visual rounding */
+  z-index: 2;
+  margin-bottom: -40px; /* Overlap the card */
+  position: relative;
+}
+
+.title-badge h1 {
+  margin: 0;
+  font-size: 36px; /* Estimated */
+  color: #ffffff;
+  -webkit-text-stroke: 1px #ffe7c5;
+  font-weight: 700;
+  letter-spacing: 2px;
+}
+
+/* Instruction Card */
+.instruction-card {
+  width: 100%;
+  background-color: #974511;
+  border: 6px solid #ffe7c5;
+  border-radius: 20px;
+  box-shadow: 5px 4px 4px 0px rgba(0, 0, 0, 0.3);
+  padding: 60px 40px 40px; /* Top padding accounts for badge overlap */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  z-index: 1;
+  min-height: 540px;
+}
+
+/* Merged Image Area */
+.illustration-area {
+  position: relative;
+  width: 400px;
+  height: 320px;
+  margin-bottom: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden; /* 防止絕對定位圖片溢出蓋到文字 */
+}
+
+.character-img {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 264px;
+  height: auto;
+  z-index: 2;
+  max-height: 100%;
+  object-fit: contain; /* 等比例縮放，避免裁切 */
+}
+
+.vector-bg {
+  position: absolute;
+  top: 100px; /* Adjusted based on visual layering */
+  left: 50%;
+  transform: translateX(-40%); /* Slight offset based on coords */
+  width: 307px;
+  height: auto;
+  z-index: 1;
+  opacity: 0.8;
+}
+
+/* Text */
+.instruction-text {
+  color: #ffffff;
+  font-size: 20px;
+  line-height: 1.5;
+  text-align: left;
+  max-width: 850px;
+  width: 100%;
+  margin: 0;
+  font-weight: 400;
+}
+
+/* Footer Buttons */
+.footer-actions {
+  display: flex;
+  gap: 34px;
+  margin-top: 45px;
+  justify-content: center;
+  width: 100%;
+}
+
+.btn {
+  height: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px;
+  font-size: 20px;
+  font-weight: 700;
+  box-shadow: 2px 2px 3px 0px rgba(0, 0, 0, 0.15);
+  transition: opacity 0.2s;
+  min-width: 150px;
+}
+
+.btn:hover {
+  opacity: 0.9;
+}
+
+.btn-prev {
+  background-color: #ffffff;
+  border: 4px solid #974511;
+  color: #974511;
+  width: 300px;
+}
+
+.btn-start {
+  background-color: #974511;
+  border: 3px solid #ffcc84;
+  color: #ffffff;
+  width: 300px;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .title-badge {
+    width: 80%;
+    height: 80px;
+    margin-bottom: -30px;
+  }
+  
+  .title-badge h1 {
+    font-size: 28px;
+  }
+
+  .instruction-card {
+    padding: 50px 20px 30px;
+  }
+
+  .illustration-area {
+    width: 100%;
+    height: 250px;
+  }
+  
+  .character-img {
+    width: 180px;
+  }
+  
+  .vector-bg {
+    width: 220px;
+    top: 60px;
+  }
+
+  .instruction-text {
+    font-size: 16px;
+  }
+
+  .footer-actions {
+    flex-direction: column-reverse;
+    align-items: center;
+    gap: 15px;
+  }
+
+  .btn {
+    width: 100%;
+    max-width: 300px;
+  }
+  
+  .back-button {
+    position: relative;
+    top: 0;
+    left: 0;
+    align-self: flex-start;
+    margin-bottom: 10px;
+  }
+  
+  .content-wrapper {
+    margin-top: 10px;
+  }
+}
+  </style>
+  <script src="gameStart2.js" defer></script>
+</head>
+<body>
+<section id="game-ui-section">
+  <div class="game-container">
+
+    <!-- Main Content Wrapper -->
+    <div class="content-wrapper">
+      
+      <!-- Title Badge -->
+      <div class="title-badge">
+        <h1>動作說明</h1>
+      </div>
+
+      <!-- Instruction Card -->
+      <div class="instruction-card">
+        
+        <!-- Merged Image Area -->
+        <div class="illustration-area">
+          <img src="image/mu (1).png" class="character-img" alt="Character lifting weights">
+        </div>
+
+        <!-- Instruction Text -->
+        <p class="instruction-text">
+          1.站好位置面對螢幕，身體在六角槓中間，腳張開與肩寬，把體線拉直呈一直線，<br><br>
+          臀部慢慢往後推，臀位可以稍微低一些，雙手握住六角槓，眼睛的視線看向前方45度的位置。
+        </p>
+      </div>
+
+      <!-- Footer Buttons -->
+      <div class="footer-actions">
+        <button class="btn btn-start" onclick="window.location.href='gameStartD2.html'">下一頁</button>
+      </div>
+
+    </div>
+  </div>
+</section>
+</body>
+</html>
